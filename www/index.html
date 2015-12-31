@@ -5,7 +5,7 @@
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
         <meta name="viewport" content="width=device-width" />
           
-         <link rel="icon" type="image/png" href="img/favicon.ico">
+         <link rel="icon" type="image/png" href="img/N6.ico">
                  
         <title>Promo Cerveceria</title>
              
@@ -28,23 +28,25 @@
 							<div class="jumbotron">
 								<h1  style="text-align: center;">Promos Cerveceria</h1>
 								<div class="row-fluid">
+									<form method="POST" name="kym_promocerve01" id="kym_promocerve01">
 									<div class="row">
 										<div class="col-xs-12 col-md-12" style="text-align: center">
-											<input type="text" class="form-control" id="username" style='width: 100%' placeholder="Usuario" />
+											<input type="text" class="form-control" id="username" name="password" style='width: 100%' placeholder="Usuario" />
 										</div>
 									</div>
 									<div class="row">&nbsp;</div>
 									<div class="row">
 										<div class="col-xs-12 col-md-12" style="text-align: center">
-											<input type="password" class="form-control" id="password" style='width: 100%' placeholder="Password" />
+											<input type="password" class="form-control" id="password" name="password" style='width: 100%' placeholder="Password" />
 										</div>
 									</div>
 									<div class="row">&nbsp;</div>
 									<div class="row">
 										<div class="col-xs-12 col-md-12" style="text-align: center">
-											<button type="button" class="btn btn-primary btn-lg" id="primer" style='width: 100%'><i class="fa fa-sign-in"></i> Entrar</button>
+											<button type="submit" class="btn btn-primary btn-lg" id="primer" name="primer" style='width: 100%' data-loading-text="Comprobando Usuario..."><i class="fa fa-sign-in"></i> Entrar</button>
 										</div>
 									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -65,9 +67,35 @@
     <!--<script type="text/javascript" src="assets/js/presentation-page/jquery.sharrre.js"></script>-->
     <script>
 		 $(document).ready(function(){
-			 $("#primer").click(function(){
-				alert("Si");
-			});
+			$("#kym_promocerve01").submit(function(){
+				var datosUsuario = $("#username").val()
+				var datosPassword = $("#password").val()
+	
+				archivoValidacion = "http://localhost/webservices/wsregistro/promocerveceria01.php?jsoncallback=?"
+				$.getJSON( archivoValidacion, { usuario:datosUsuario ,password:datosPassword})
+				.done(function(respuestaServer) {
+		
+					//alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)
+		
+					if(respuestaServer.validacion == "ok"){
+		  
+		 	/// si la validacion es correcta, muestra la pantalla "home"
+						//$.mobile.changePage("#home")
+						alert("Correcto");
+		  
+					}else{
+						alert("Erroneo");
+		  
+		  /// ejecutar una conducta cuando la validacion falla
+					}
+  
+				})
+				return false;
+				});
+			$('#username').focus();    
+			//$('#popover-usuario').popover();
+			//$('#popover-paswd').popover();
+			//$(".alert").alert();
 		});
     </script>
 
